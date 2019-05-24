@@ -933,7 +933,15 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"try {",
+									"    pm.environment.set(\"client_id\", jsonData.response.clients[0].id);",
+									"} catch (err){",
+									"    pm.environment.unset(\"client_id\");",
+									"}",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -1095,6 +1103,20 @@
 				},
 				{
 					"name": "Send Message To Client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b0e7bb08-8647-40fd-89d8-2da85b9f6cbb",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -1132,6 +1154,22 @@
 				},
 				{
 					"name": "disconnect a client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ac476a68-cab5-4c73-8cf1-766cf52a1602",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.environment.unset(\"client_id\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -2160,6 +2198,20 @@
 			"item": [
 				{
 					"name": "PHP Settings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "efa40320-0be2-4874-bd89-d72afde4f6d1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -2308,6 +2360,20 @@
 				},
 				{
 					"name": "Update PHP Settings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5a6c5a4e-abd5-4287-8e86-cadda05a354e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -2349,6 +2415,20 @@
 			"item": [
 				{
 					"name": "XML Settings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3cce41a5-3389-4d0d-b6c5-8128bc3cf14f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -2377,6 +2457,20 @@
 				},
 				{
 					"name": "Update XML Settings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "860668ca-d381-4ff1-a24a-4cc32318b302",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -2418,6 +2512,20 @@
 			"item": [
 				{
 					"name": "ODBC/JDBC Settings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6fa10f7a-a814-499a-8b7d-7f94bf491828",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -2446,6 +2554,20 @@
 				},
 				{
 					"name": "Update ODBC/JDBC Settings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e4964b32-6968-4060-9b16-ce5f38e4038f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -2487,6 +2609,20 @@
 			"item": [
 				{
 					"name": "FileMaker Data API Settings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e4595857-03ed-44e0-8bb3-d53f7a264b40",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -2515,6 +2651,20 @@
 				},
 				{
 					"name": "Update FileMaker Data API Settings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "36094b70-a418-4779-8581-c329a178fb82",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -2556,6 +2706,20 @@
 			"item": [
 				{
 					"name": "FileMaker WebDirect Settings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3034d023-1ef7-40ed-90b8-07c0683bc74d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -2584,6 +2748,20 @@
 				},
 				{
 					"name": "Update FileMaker WebDirect Settings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b1e4133e-04bf-4b5f-a3eb-8cf7de139eb4",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -2620,6 +2798,20 @@
 				},
 				{
 					"name": "WPE Settings for All Machines",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "894ec4b1-3721-4c20-812e-2a3ba4f7b701",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -2648,6 +2840,20 @@
 				},
 				{
 					"name": "WPE Settings for a Single Machine",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6c984d0f-776d-443e-a425-bd3f744d5e0c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2684,6 +2890,20 @@
 				},
 				{
 					"name": "Update WPE Settings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "96078536-fca0-4f14-8715-cae6b72f42c5",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PATCH",
 						"header": [
