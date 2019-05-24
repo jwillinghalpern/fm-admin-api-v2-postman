@@ -1,0 +1,2748 @@
+{
+	"info": {
+		"_postman_id": "17af27fc-e04e-4f10-bf2d-28ab76e81913",
+		"name": "FileMaker Admin API v2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Request Access Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "af2664ac-affd-4cf8-a1ea-dd2de1d2bba1",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"access_token\", jsonData.response.token);",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"message code is 0\", function () {",
+									"    pm.expect(jsonData.messages[0].code).to.eql(\"0\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/user/auth",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"user",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalidate Access Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c4234f3c-009b-4611-9871-ee2f8b9d7425",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.unset(\"access_token\");",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"message code is 0\", function () {",
+									"    pm.expect(jsonData.messages[0].code).to.eql(\"0\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/user/auth/{{access_token}}",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"user",
+								"auth",
+								"{{access_token}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Database Server",
+			"item": [
+				{
+					"name": "Get Server Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b0683852-ed16-4d6a-bcc3-5f927357b41b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"message code is 0\", function () {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    pm.expect(jsonData.messages[0].code).to.eql(\"0\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/server/status",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"server",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Server Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "99fa5af4-f578-423d-ae57-e18b64ecdf54",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"RUNNING\",\n  \"messageText\": \"This only fires when status set to STOPPED. Alternative is RUNNING.\",\n  \"graceTime\": 0\n}\n"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/server/status",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"server",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Server Security Setting",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "96f37ab7-7ecb-4551-b6aa-3eb0a01a780d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/server/config/security",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"server",
+								"config",
+								"security"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get security configuration",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{server}}/fmi/admin/api/v2/server/config/security",
+									"protocol": "https",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"fmi",
+										"admin",
+										"api",
+										"v2",
+										"server",
+										"config",
+										"security"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "45",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 07 Jan 2018 14:07:03 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2d-G1tZOhesHhhDr/UtnUDrKSNB690\"",
+									"name": "ETag",
+									"description": "An identifier for a specific version of a resource, often a message digest"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains",
+									"name": "Strict-Transport-Security",
+									"description": "A HSTS Policy informing the HTTP client how long to cache the HTTPS only policy and whether this applies to subdomains."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff",
+									"name": "X-Content-Type-Options",
+									"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN",
+									"name": "X-Frame-Options",
+									"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "ARR/3.0",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block",
+									"name": "X-XSS-Protection",
+									"description": "Cross-site scripting (XSS) filter"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/fmi/xml",
+									"secure": false,
+									"value": "\"5YMPCz5Yn6p2Azij4wJGKA==\"",
+									"key": "WPCSessionID"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/",
+									"secure": false,
+									"value": "s%3Arld0Nf17F0YH8Mz7gN3on3LIOJc6a-SY.3ZVzkt4MWVikr62LdHmM02KYM2gDxifeSF7E22vd6kc",
+									"key": "connect.sid"
+								}
+							],
+							"body": "{\n  \"result\": 0,\n  \"requireSecureDB\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Security Security Setting",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b3e67b1b-b6ec-4683-b39b-f21f148cc60a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"requireSecureDB\": true\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/server/config/security",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"server",
+								"config",
+								"security"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Server General Settings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3f088ed7-6ed8-41f1-8113-f6b1c18cef66",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/server/config/general",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"server",
+								"config",
+								"general"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get general configuration",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{server}}/fmi/admin/api/v2/server/config/general",
+									"protocol": "https",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"fmi",
+										"admin",
+										"api",
+										"v2",
+										"server",
+										"config",
+										"general"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "103",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 07 Jan 2018 14:06:43 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"67-jqHB58cG7H+bb/85y2nMBKRLiRo\"",
+									"name": "ETag",
+									"description": "An identifier for a specific version of a resource, often a message digest"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains",
+									"name": "Strict-Transport-Security",
+									"description": "A HSTS Policy informing the HTTP client how long to cache the HTTPS only policy and whether this applies to subdomains."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff",
+									"name": "X-Content-Type-Options",
+									"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN",
+									"name": "X-Frame-Options",
+									"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "ARR/3.0",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block",
+									"name": "X-XSS-Protection",
+									"description": "Cross-site scripting (XSS) filter"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/fmi/xml",
+									"secure": false,
+									"value": "\"5YMPCz5Yn6p2Azij4wJGKA==\"",
+									"key": "WPCSessionID"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/",
+									"secure": false,
+									"value": "s%3Arld0Nf17F0YH8Mz7gN3on3LIOJc6a-SY.3ZVzkt4MWVikr62LdHmM02KYM2gDxifeSF7E22vd6kc",
+									"key": "connect.sid"
+								}
+							],
+							"body": "{\n  \"result\": 0,\n  \"cacheSize\": 800,\n  \"maxFiles\": 125,\n  \"maxProConnections\": 2000,\n  \"maxPSOS\": 100\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Server General Settings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "72546933-5a63-4096-9f91-8f4799276052",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cacheSize\": 512,\n    \"maxFiles\": 125,\n    \"maxProConnections\": 250,\n    \"maxPSOS\": 100\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/server/config/general",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"server",
+								"config",
+								"general"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Databases",
+			"item": [
+				{
+					"name": "List Databases",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "41849104-3e7f-424f-87c4-f91e1f74f311",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/databases",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"databases"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "list databases and users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{server}}/fmi/admin/api/v2/databases",
+									"protocol": "https",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"fmi",
+										"admin",
+										"api",
+										"v2",
+										"databases"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Feb 2018 22:12:38 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"198a-Zi/tm1xyhdI5KA+HT8glUuKBGV4\"",
+									"name": "ETag",
+									"description": "An identifier for a specific version of a resource, often a message digest"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains",
+									"name": "Strict-Transport-Security",
+									"description": "A HSTS Policy informing the HTTP client how long to cache the HTTPS only policy and whether this applies to subdomains."
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff",
+									"name": "X-Content-Type-Options",
+									"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN",
+									"name": "X-Frame-Options",
+									"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "ARR/3.0",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block",
+									"name": "X-XSS-Protection",
+									"description": "Cross-site scripting (XSS) filter"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/fmi/xml",
+									"secure": false,
+									"value": "\"daFjKoK30bs9b2VGttRp/w==\"",
+									"key": "WPCSessionID"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/",
+									"secure": false,
+									"value": "s%3AZkqqPhqckLSzkHe_5FGrpE33DcIlisTh.3w7O7iDrAp8JKmvu5cRgoF3nYg1BeBQDUIru828AzRY",
+									"key": "connect.sid"
+								}
+							],
+							"body": "{\n  \"result\": 0,\n  \"files\": {\n    \"result\": 0,\n    \"files\": [\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": [\n          \"fmapp\",\n          \"fmreauthenticate10\"\n        ],\n        \"filename\": \"Connecttest.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"1\",\n        \"isEncrypted\": false,\n        \"size\": 212992,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": [\n          \"fmapp\",\n          \"fmxml\",\n          \"fmphp\",\n          \"fmwebdirect\"\n        ],\n        \"filename\": \"FMServer_Sample.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/Sample/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"2\",\n        \"isEncrypted\": false,\n        \"size\": 905216,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"L zero\",\n        \"enabledExtPrivileges\": [\n          \"fmwebdirect\",\n          \"fmxdbc\",\n          \"fmapp\",\n          \"fmreauthenticate10\",\n          \"fmxml\",\n          \"fmrest\"\n        ],\n        \"filename\": \"SenseHat.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"3\",\n        \"isEncrypted\": true,\n        \"size\": 817631232,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": [\n          \"fmapp\",\n          \"fmreauthenticate10\"\n        ],\n        \"filename\": \"TestOne.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"4\",\n        \"isEncrypted\": false,\n        \"size\": 294912,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"L0\",\n        \"enabledExtPrivileges\": [\n          \"fmwebdirect\",\n          \"fmapp\",\n          \"fmreauthenticate10\",\n          \"fmxml\",\n          \"fmrest\"\n        ],\n        \"filename\": \"data_migration2.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/my_subfolder/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"5\",\n        \"isEncrypted\": true,\n        \"size\": 3325952,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": null,\n        \"filename\": \"my_NOT_encrypted_file.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Secure/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"6\",\n        \"isEncrypted\": false,\n        \"size\": 233472,\n        \"status\": \"CLOSED\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"strand\",\n        \"enabledExtPrivileges\": [\n          \"fmapp\",\n          \"fmreauthenticate10\"\n        ],\n        \"filename\": \"my_encrypted_file.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Secure/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"7\",\n        \"isEncrypted\": true,\n        \"size\": 233472,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"strand\",\n        \"enabledExtPrivileges\": [\n          \"fmapp\",\n          \"fmreauthenticate10\"\n        ],\n        \"filename\": \"my_other_encrypted_file.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"8\",\n        \"isEncrypted\": true,\n        \"size\": 233472,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": null,\n        \"filename\": \"new_file_no_pw.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"9\",\n        \"isEncrypted\": false,\n        \"size\": 233472,\n        \"status\": \"CLOSED\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": [\n          \"fmwebdirect\",\n          \"fmxdbc\",\n          \"fmapp\",\n          \"fmreauthenticate10\",\n          \"fmxml\",\n          \"fmrest\"\n        ],\n        \"filename\": \"the_Data.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"10\",\n        \"isEncrypted\": false,\n        \"size\": 15679488,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": [\n          \"fmwebdirect\",\n          \"fmxdbc\",\n          \"fmapp\",\n          \"fmreauthenticate10\",\n          \"fmxml\",\n          \"fmphp\",\n          \"fmurlscript\",\n          \"fmrest\"\n        ],\n        \"filename\": \"the_UI.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"11\",\n        \"isEncrypted\": false,\n        \"size\": 315392,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 1,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": [\n          \"fmapp\",\n          \"fmreauthenticate10\"\n        ],\n        \"filename\": \"dup_test.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"12\",\n        \"isEncrypted\": false,\n        \"size\": 1276874752,\n        \"status\": \"NORMAL\"\n      }\n    ]\n  },\n  \"clients\": {\n    \"result\": 0,\n    \"clients\": [\n      {\n        \"appLanguage\": \"English\",\n        \"appType\": \"PROADVANCED\",\n        \"appVersion\": \"ProAdvanced 16.0.4\",\n        \"computerName\": \"Menen\",\n        \"concurrent\": false,\n        \"connectDuration\": \"23:24:54\",\n        \"connectTime\": \"2018-02-19T22:47:44.000Z\",\n        \"extpriv\": \"fmapp\",\n        \"guestFiles\": [\n          {\n            \"accountName\": \"dev\",\n            \"filename\": \"dup_test.fmp12\",\n            \"id\": \"12\",\n            \"privsetName\": \"[Full Access]\"\n          }\n        ],\n        \"id\": \"30\",\n        \"ipaddress\": \"50.100.244.133\",\n        \"macaddress\": \"3c:07:54:63:85:d2\",\n        \"operatingSystem\": \"OSX\",\n        \"status\": \"NORMAL\",\n        \"teamLicensed\": false,\n        \"userName\": \"Wim Decorte\"\n      }\n    ]\n  },\n  \"totalDBCount\": 12,\n  \"openDBCount\": 10,\n  \"fmproCount\": 0,\n  \"fmgoCount\": 0,\n  \"fmwebdCount\": 0,\n  \"fmdapiCount\": 0,\n  \"fmmiscCount\": 1,\n  \"time\": \"2018-02-20T22:12:38.898Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Perform Database Operations for All Databases",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"status\": \"RUNNING\",\n\t\"force\": false\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/databases",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"databases"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Perform Database Operations for A Database",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"status\": \"CLOSED\",\n\t\"key\": \"abcdefg\",\n\t\"messageText\": \"Hellow World\",\n\t\"force\": false\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/databases/{{db_id}}",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"databases",
+								"{{db_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clients",
+			"item": [
+				{
+					"name": "List Clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "41849104-3e7f-424f-87c4-f91e1f74f311",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/clients",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"clients"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "list databases and users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{server}}/fmi/admin/api/v2/databases",
+									"protocol": "https",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"fmi",
+										"admin",
+										"api",
+										"v2",
+										"databases"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Feb 2018 22:12:38 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"198a-Zi/tm1xyhdI5KA+HT8glUuKBGV4\"",
+									"name": "ETag",
+									"description": "An identifier for a specific version of a resource, often a message digest"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains",
+									"name": "Strict-Transport-Security",
+									"description": "A HSTS Policy informing the HTTP client how long to cache the HTTPS only policy and whether this applies to subdomains."
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff",
+									"name": "X-Content-Type-Options",
+									"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN",
+									"name": "X-Frame-Options",
+									"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "ARR/3.0",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block",
+									"name": "X-XSS-Protection",
+									"description": "Cross-site scripting (XSS) filter"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/fmi/xml",
+									"secure": false,
+									"value": "\"daFjKoK30bs9b2VGttRp/w==\"",
+									"key": "WPCSessionID"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/",
+									"secure": false,
+									"value": "s%3AZkqqPhqckLSzkHe_5FGrpE33DcIlisTh.3w7O7iDrAp8JKmvu5cRgoF3nYg1BeBQDUIru828AzRY",
+									"key": "connect.sid"
+								}
+							],
+							"body": "{\n  \"result\": 0,\n  \"files\": {\n    \"result\": 0,\n    \"files\": [\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": [\n          \"fmapp\",\n          \"fmreauthenticate10\"\n        ],\n        \"filename\": \"Connecttest.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"1\",\n        \"isEncrypted\": false,\n        \"size\": 212992,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": [\n          \"fmapp\",\n          \"fmxml\",\n          \"fmphp\",\n          \"fmwebdirect\"\n        ],\n        \"filename\": \"FMServer_Sample.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/Sample/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"2\",\n        \"isEncrypted\": false,\n        \"size\": 905216,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"L zero\",\n        \"enabledExtPrivileges\": [\n          \"fmwebdirect\",\n          \"fmxdbc\",\n          \"fmapp\",\n          \"fmreauthenticate10\",\n          \"fmxml\",\n          \"fmrest\"\n        ],\n        \"filename\": \"SenseHat.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"3\",\n        \"isEncrypted\": true,\n        \"size\": 817631232,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": [\n          \"fmapp\",\n          \"fmreauthenticate10\"\n        ],\n        \"filename\": \"TestOne.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"4\",\n        \"isEncrypted\": false,\n        \"size\": 294912,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"L0\",\n        \"enabledExtPrivileges\": [\n          \"fmwebdirect\",\n          \"fmapp\",\n          \"fmreauthenticate10\",\n          \"fmxml\",\n          \"fmrest\"\n        ],\n        \"filename\": \"data_migration2.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/my_subfolder/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"5\",\n        \"isEncrypted\": true,\n        \"size\": 3325952,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": null,\n        \"filename\": \"my_NOT_encrypted_file.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Secure/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"6\",\n        \"isEncrypted\": false,\n        \"size\": 233472,\n        \"status\": \"CLOSED\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"strand\",\n        \"enabledExtPrivileges\": [\n          \"fmapp\",\n          \"fmreauthenticate10\"\n        ],\n        \"filename\": \"my_encrypted_file.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Secure/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"7\",\n        \"isEncrypted\": true,\n        \"size\": 233472,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"strand\",\n        \"enabledExtPrivileges\": [\n          \"fmapp\",\n          \"fmreauthenticate10\"\n        ],\n        \"filename\": \"my_other_encrypted_file.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"8\",\n        \"isEncrypted\": true,\n        \"size\": 233472,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": null,\n        \"filename\": \"new_file_no_pw.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"9\",\n        \"isEncrypted\": false,\n        \"size\": 233472,\n        \"status\": \"CLOSED\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": [\n          \"fmwebdirect\",\n          \"fmxdbc\",\n          \"fmapp\",\n          \"fmreauthenticate10\",\n          \"fmxml\",\n          \"fmrest\"\n        ],\n        \"filename\": \"the_Data.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"10\",\n        \"isEncrypted\": false,\n        \"size\": 15679488,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 0,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": [\n          \"fmwebdirect\",\n          \"fmxdbc\",\n          \"fmapp\",\n          \"fmreauthenticate10\",\n          \"fmxml\",\n          \"fmphp\",\n          \"fmurlscript\",\n          \"fmrest\"\n        ],\n        \"filename\": \"the_UI.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"11\",\n        \"isEncrypted\": false,\n        \"size\": 315392,\n        \"status\": \"NORMAL\"\n      },\n      {\n        \"clients\": 1,\n        \"decryptHint\": \"\",\n        \"enabledExtPrivileges\": [\n          \"fmapp\",\n          \"fmreauthenticate10\"\n        ],\n        \"filename\": \"dup_test.fmp12\",\n        \"folder\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Databases/\",\n        \"hasSavedDecryptKey\": false,\n        \"id\": \"12\",\n        \"isEncrypted\": false,\n        \"size\": 1276874752,\n        \"status\": \"NORMAL\"\n      }\n    ]\n  },\n  \"clients\": {\n    \"result\": 0,\n    \"clients\": [\n      {\n        \"appLanguage\": \"English\",\n        \"appType\": \"PROADVANCED\",\n        \"appVersion\": \"ProAdvanced 16.0.4\",\n        \"computerName\": \"Menen\",\n        \"concurrent\": false,\n        \"connectDuration\": \"23:24:54\",\n        \"connectTime\": \"2018-02-19T22:47:44.000Z\",\n        \"extpriv\": \"fmapp\",\n        \"guestFiles\": [\n          {\n            \"accountName\": \"dev\",\n            \"filename\": \"dup_test.fmp12\",\n            \"id\": \"12\",\n            \"privsetName\": \"[Full Access]\"\n          }\n        ],\n        \"id\": \"30\",\n        \"ipaddress\": \"50.100.244.133\",\n        \"macaddress\": \"3c:07:54:63:85:d2\",\n        \"operatingSystem\": \"OSX\",\n        \"status\": \"NORMAL\",\n        \"teamLicensed\": false,\n        \"userName\": \"Wim Decorte\"\n      }\n    ]\n  },\n  \"totalDBCount\": 12,\n  \"openDBCount\": 10,\n  \"fmproCount\": 0,\n  \"fmgoCount\": 0,\n  \"fmwebdCount\": 0,\n  \"fmdapiCount\": 0,\n  \"fmmiscCount\": 1,\n  \"time\": \"2018-02-20T22:12:38.898Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Send Message To Client",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"messageText\": \"hey there, how goes?\"\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/clients/{{client_id}}/message",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"clients",
+								"{{client_id}}",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "disconnect a client",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"messageText\": \"Disconnecting, save your changes.\",\n\t\"graceTime\": 15\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/clients/{{client_id}}",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"clients",
+								"{{client_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Schedules",
+			"item": [
+				{
+					"name": "List Schedules",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e7201f29-9462-4d36-b0b0-0ab46408f171",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"try {",
+									"    pm.environment.set(\"schedule_id\", jsonData.response.schedules[0].id);",
+									"} catch (err){",
+									"    pm.environment.unset(\"schedule_id\");",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/schedules",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"schedules"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "list schedules",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{server}}/fmi/admin/api/v2/schedules",
+									"protocol": "https",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"fmi",
+										"admin",
+										"api",
+										"v2",
+										"schedules"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 07 Jan 2018 14:07:59 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"6fd-iYJO+XUpyzi7r6+j1nzQMWl5Lgk\"",
+									"name": "ETag",
+									"description": "An identifier for a specific version of a resource, often a message digest"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains",
+									"name": "Strict-Transport-Security",
+									"description": "A HSTS Policy informing the HTTP client how long to cache the HTTPS only policy and whether this applies to subdomains."
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff",
+									"name": "X-Content-Type-Options",
+									"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN",
+									"name": "X-Frame-Options",
+									"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "ARR/3.0",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block",
+									"name": "X-XSS-Protection",
+									"description": "Cross-site scripting (XSS) filter"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/fmi/xml",
+									"secure": false,
+									"value": "\"5YMPCz5Yn6p2Azij4wJGKA==\"",
+									"key": "WPCSessionID"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/",
+									"secure": false,
+									"value": "s%3Arld0Nf17F0YH8Mz7gN3on3LIOJc6a-SY.3ZVzkt4MWVikr62LdHmM02KYM2gDxifeSF7E22vd6kc",
+									"key": "connect.sid"
+								}
+							],
+							"body": "{\n  \"result\": 0,\n  \"schedules\": [\n    {\n      \"backupType\": {\n        \"backupTarget\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Backups/\",\n        \"clone\": \"false\",\n        \"fromTarget\": \"All Databases\",\n        \"maxBackups\": 24,\n        \"target\": 2,\n        \"verify\": \"false\"\n      },\n      \"dailyDays\": 1,\n      \"daysOfTheWeek\": \"0000000\",\n      \"daysOfTheWeekDetails\": \"\",\n      \"emailAddresses\": \"\",\n      \"enableEndDate\": \"false\",\n      \"enabled\": \"true\",\n      \"endDate\": \"22:05:00\",\n      \"freqType\": 2,\n      \"id\": \"2\",\n      \"lastError\": 0,\n      \"lastRun\": \"2018-01-07 14:05:00 GMT\",\n      \"name\": \"every_15_minutes\",\n      \"nextRun\": \"2018-01-07 14:20:00 GMT\",\n      \"repeatFrequency\": 15,\n      \"repeatInterval\": 1,\n      \"repeatTask\": \"true\",\n      \"sendEmail\": \"false\",\n      \"startDate\": \"2018-01-07 05:05:00\",\n      \"status\": 1,\n      \"taskType\": \"BACKUP\"\n    },\n    {\n      \"dailyDays\": 1,\n      \"daysOfTheWeek\": \"0000000\",\n      \"daysOfTheWeekDetails\": \"\",\n      \"emailAddresses\": \"\",\n      \"enableEndDate\": \"false\",\n      \"enabled\": \"true\",\n      \"filemakerScriptType\": {\n        \"autoAbort\": \"true\",\n        \"fmScriptAccount\": \"rest\",\n        \"fmScriptName\": \"some_script\",\n        \"fmScriptParam\": \"\",\n        \"fmScriptPassword\": \"$0$EBktAoJu9tAZJFqQT3PV9BTFS/kHQeyi6UwlgxqNCkSj\",\n        \"fromTarget\": \"file:the_UI\",\n        \"timeout\": 2\n      },\n      \"freqType\": 2,\n      \"id\": \"3\",\n      \"lastError\": 0,\n      \"lastRun\": \"2018-01-07 13:59:00 GMT\",\n      \"name\": \"run_some_script\",\n      \"nextRun\": \"2018-01-08 01:30:00 GMT\",\n      \"repeatFrequency\": 10,\n      \"repeatInterval\": 1,\n      \"repeatTask\": \"false\",\n      \"sendEmail\": \"false\",\n      \"startDate\": \"2018-01-07 01:30:00\",\n      \"status\": 1,\n      \"taskType\": \"FILEMAKER SCRIPT\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Duplicate Schedule",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1047531f-13fd-4dc2-8429-4d541cf559b2",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/schedules?source={{schedule_id}}",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"schedules"
+							],
+							"query": [
+								{
+									"key": "source",
+									"value": "{{schedule_id}}",
+									"description": "required. integer >= 2. The schedule ID for the schedule to duplicate. Schedule ID 1 is reserved by FileMaker Server."
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Backup Schedule",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8e086f5b-d8e5-457e-8e44-846aef30e898",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"try {",
+									"    pm.environment.set(\"schedule_id\", jsonData.response.schedule.id);",
+									"} catch (err){",
+									"    pm.environment.unset(\"schedule_id\");",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"BackupSchedule\",\n    \"backupType\": {\n        \"resourceType\": \"ALL_DB\",\n        \"backupTarget\": \"filemac:/Macintosh HD/Library/FileMaker Server/Data/Backups/\",\n        \"maxBackups\": 5,\n        \"clone\": true,\n        \"verify\": false\n    },\n    \"enabled\": true,\n    \"everyndaysType\": {\n        \"startTimeStamp\": \"2020-05-01T12:30:00\",\n        \"dailyDays\": 1\n    },\n    \"sendEmail\": [\n        \"john.doe@xxx.xxx\",\n        \"jane.doe@xxx.xxx\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/schedules/backup",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"schedules",
+								"backup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create FileMaker Script Schedule",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8e086f5b-d8e5-457e-8e44-846aef30e898",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"try {",
+									"    pm.environment.set(\"schedule_id\", jsonData.response.schedule.id);",
+									"} catch (err){",
+									"    pm.environment.unset(\"schedule_id\");",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"FileMakerScriptSchedule\",\n    \"filemakerScriptType\": {\n        \"resource\": \"file:Contacts.fmp12\",\n        \"fmScriptName\": \"scd\",\n        \"fmScriptParam\": \"Script param here\",\n        \"fmScriptAccount\": \"bruderdog\",\n        \"fmScriptPassword\": \"Bruder13\",\n        \"timeout\": 10\n    },\n    \"weeklyType\": {\n        \"startTimeStamp\": \"2020-12-04T11:20:00\",\n        \"daysOfTheWeek\": [\n            \"MON\",\n            \"SAT\"\n        ]\n    }\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/schedules/filemakerscript",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"schedules",
+								"filemakerscript"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Message Schedule",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8e086f5b-d8e5-457e-8e44-846aef30e898",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"try {",
+									"    pm.environment.set(\"schedule_id\", jsonData.response.schedule.id);",
+									"} catch (err){",
+									"    pm.environment.unset(\"schedule_id\");",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"MessageSchedule\",\n    \"messageType\": {\n        \"resourceType\": \"DB_IN_FOLDER\",\n        \"resource\": \"filemac:/Macintosh HD/Library/FileMaker Server/Data/Databases/\",\n        \"messageText\": \"Server will be shut down in 15 minutes. Please save your work and proceed to logout.\"\n    },\n    \"onceType\": {\n        \"startTimeStamp\": \"2020-10-11T12:22:00\"\n    }\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/schedules/message",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"schedules",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Script Sequence Schedule",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8e086f5b-d8e5-457e-8e44-846aef30e898",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"try {",
+									"    pm.environment.set(\"schedule_id\", jsonData.response.schedule.id);",
+									"} catch (err){",
+									"    pm.environment.unset(\"schedule_id\");",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"ScriptSequenceSchedule\",\n    \"scriptSequenceType\": {\n        \"resource\": \"file:PlugIn.fmp12\",\n        \"fmScriptName\": \"UsePlugin\",\n        \"fmScriptParam\": \"blah\",\n        \"fmScriptAccount\": \"jane\",\n        \"fmScriptPassword\": \"My$ecret\",\n        \"osScript\": \"filemac:/Macintosh HD/Library/FileMaker Server/Data/Scripts/system-script-1.sh\",\n        \"osScriptParam\": \"foo\",\n        \"osScript2\": \"filemac:/Macintosh HD/Library/FileMaker Server/Data/Scripts/system-script-2.sh\",\n        \"osScriptParam2\": \"bar\"\n    },\n    \"everyndaysType\": {\n        \"startTimeStamp\": \"2019-10-11T12:22:00\",\n        \"endDate\": \"2020-10-11\",\n        \"dailyDays\": 1,\n        \"repeatTask\": {\n            \"repeatFrequency\": 6,\n            \"repeatInterval\": \"HOURS\",\n            \"endTime\": \"12:22:00\"\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/schedules/scriptsequence",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"schedules",
+								"scriptsequence"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create System Script Schedule",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8e086f5b-d8e5-457e-8e44-846aef30e898",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"try {",
+									"    pm.environment.set(\"schedule_id\", jsonData.response.schedule.id);",
+									"} catch (err){",
+									"    pm.environment.unset(\"schedule_id\");",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"SystemScriptSchedule\",\n    \"systemScriptType\": {\n        \"osScript\": \"filemac:/Macintosh HD/Library/FileMaker Server/Data/Scripts/system-script.sh\",\n        \"osScriptParam\": \"foo\",\n        \"runOSScriptsAsUser\": {\n            \"osScriptAccount\": \"john\",\n            \"osScriptPassword\": \"$ometh1ngKant$hare\"\n        }\n    },\n    \"weeklyType\": {\n        \"startTimeStamp\": \"2020-10-11T12:22:00\",\n        \"daysOfTheWeek\": [\n            \"SUN\",\n            \"THU\",\n            \"FRI\"\n        ]\n    }\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/schedules/systemscript",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"schedules",
+								"systemscript"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Verify Schedule",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8e086f5b-d8e5-457e-8e44-846aef30e898",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"try {",
+									"    pm.environment.set(\"schedule_id\", jsonData.response.schedule.id);",
+									"} catch (err){",
+									"    pm.environment.unset(\"schedule_id\");",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"VerifySchedule\",\n    \"verifyType\": {\n        \"resourceType\": \"SINGLE_DB\",\n        \"resource\": \"file:FMServer_Sample.fmp12\"\n    },\n    \"onceType\": {\n        \"startTimeStamp\": \"2020-10-11T12:22:00\"\n    }\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/schedules/verify",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"schedules",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Schedule",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e7201f29-9462-4d36-b0b0-0ab46408f171",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/schedules/{{schedule_id}}",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"schedules",
+								"{{schedule_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "list schedules",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{server}}/fmi/admin/api/v2/schedules",
+									"protocol": "https",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"fmi",
+										"admin",
+										"api",
+										"v2",
+										"schedules"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 07 Jan 2018 14:07:59 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"6fd-iYJO+XUpyzi7r6+j1nzQMWl5Lgk\"",
+									"name": "ETag",
+									"description": "An identifier for a specific version of a resource, often a message digest"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains",
+									"name": "Strict-Transport-Security",
+									"description": "A HSTS Policy informing the HTTP client how long to cache the HTTPS only policy and whether this applies to subdomains."
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff",
+									"name": "X-Content-Type-Options",
+									"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN",
+									"name": "X-Frame-Options",
+									"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "ARR/3.0",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block",
+									"name": "X-XSS-Protection",
+									"description": "Cross-site scripting (XSS) filter"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/fmi/xml",
+									"secure": false,
+									"value": "\"5YMPCz5Yn6p2Azij4wJGKA==\"",
+									"key": "WPCSessionID"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/",
+									"secure": false,
+									"value": "s%3Arld0Nf17F0YH8Mz7gN3on3LIOJc6a-SY.3ZVzkt4MWVikr62LdHmM02KYM2gDxifeSF7E22vd6kc",
+									"key": "connect.sid"
+								}
+							],
+							"body": "{\n  \"result\": 0,\n  \"schedules\": [\n    {\n      \"backupType\": {\n        \"backupTarget\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Backups/\",\n        \"clone\": \"false\",\n        \"fromTarget\": \"All Databases\",\n        \"maxBackups\": 24,\n        \"target\": 2,\n        \"verify\": \"false\"\n      },\n      \"dailyDays\": 1,\n      \"daysOfTheWeek\": \"0000000\",\n      \"daysOfTheWeekDetails\": \"\",\n      \"emailAddresses\": \"\",\n      \"enableEndDate\": \"false\",\n      \"enabled\": \"true\",\n      \"endDate\": \"22:05:00\",\n      \"freqType\": 2,\n      \"id\": \"2\",\n      \"lastError\": 0,\n      \"lastRun\": \"2018-01-07 14:05:00 GMT\",\n      \"name\": \"every_15_minutes\",\n      \"nextRun\": \"2018-01-07 14:20:00 GMT\",\n      \"repeatFrequency\": 15,\n      \"repeatInterval\": 1,\n      \"repeatTask\": \"true\",\n      \"sendEmail\": \"false\",\n      \"startDate\": \"2018-01-07 05:05:00\",\n      \"status\": 1,\n      \"taskType\": \"BACKUP\"\n    },\n    {\n      \"dailyDays\": 1,\n      \"daysOfTheWeek\": \"0000000\",\n      \"daysOfTheWeekDetails\": \"\",\n      \"emailAddresses\": \"\",\n      \"enableEndDate\": \"false\",\n      \"enabled\": \"true\",\n      \"filemakerScriptType\": {\n        \"autoAbort\": \"true\",\n        \"fmScriptAccount\": \"rest\",\n        \"fmScriptName\": \"some_script\",\n        \"fmScriptParam\": \"\",\n        \"fmScriptPassword\": \"$0$EBktAoJu9tAZJFqQT3PV9BTFS/kHQeyi6UwlgxqNCkSj\",\n        \"fromTarget\": \"file:the_UI\",\n        \"timeout\": 2\n      },\n      \"freqType\": 2,\n      \"id\": \"3\",\n      \"lastError\": 0,\n      \"lastRun\": \"2018-01-07 13:59:00 GMT\",\n      \"name\": \"run_some_script\",\n      \"nextRun\": \"2018-01-08 01:30:00 GMT\",\n      \"repeatFrequency\": 10,\n      \"repeatInterval\": 1,\n      \"repeatTask\": \"false\",\n      \"sendEmail\": \"false\",\n      \"startDate\": \"2018-01-07 01:30:00\",\n      \"status\": 1,\n      \"taskType\": \"FILEMAKER SCRIPT\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit/Run Schedule",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e7201f29-9462-4d36-b0b0-0ab46408f171",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"UpdatedSchedule\",\n    \"systemScriptType\": {\n        \"osScriptParam\": \"bar\",\n        \"runOSScriptsAsUser\": {}\n    },\n    \"weeklyType\": {\n        \"startTimeStamp\": \"2020-06-23T05:32:00\",\n        \"daysOfTheWeek\": [\n            \"TUE\",\n            \"SAT\"\n        ]\n    }\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/schedules/{{schedule_id}}",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"schedules",
+								"{{schedule_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "list schedules",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{server}}/fmi/admin/api/v2/schedules",
+									"protocol": "https",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"fmi",
+										"admin",
+										"api",
+										"v2",
+										"schedules"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 07 Jan 2018 14:07:59 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"6fd-iYJO+XUpyzi7r6+j1nzQMWl5Lgk\"",
+									"name": "ETag",
+									"description": "An identifier for a specific version of a resource, often a message digest"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains",
+									"name": "Strict-Transport-Security",
+									"description": "A HSTS Policy informing the HTTP client how long to cache the HTTPS only policy and whether this applies to subdomains."
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff",
+									"name": "X-Content-Type-Options",
+									"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN",
+									"name": "X-Frame-Options",
+									"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "ARR/3.0",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block",
+									"name": "X-XSS-Protection",
+									"description": "Cross-site scripting (XSS) filter"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/fmi/xml",
+									"secure": false,
+									"value": "\"5YMPCz5Yn6p2Azij4wJGKA==\"",
+									"key": "WPCSessionID"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/",
+									"secure": false,
+									"value": "s%3Arld0Nf17F0YH8Mz7gN3on3LIOJc6a-SY.3ZVzkt4MWVikr62LdHmM02KYM2gDxifeSF7E22vd6kc",
+									"key": "connect.sid"
+								}
+							],
+							"body": "{\n  \"result\": 0,\n  \"schedules\": [\n    {\n      \"backupType\": {\n        \"backupTarget\": \"filewin:/C:/Program Files/FileMaker/FileMaker Server/Data/Backups/\",\n        \"clone\": \"false\",\n        \"fromTarget\": \"All Databases\",\n        \"maxBackups\": 24,\n        \"target\": 2,\n        \"verify\": \"false\"\n      },\n      \"dailyDays\": 1,\n      \"daysOfTheWeek\": \"0000000\",\n      \"daysOfTheWeekDetails\": \"\",\n      \"emailAddresses\": \"\",\n      \"enableEndDate\": \"false\",\n      \"enabled\": \"true\",\n      \"endDate\": \"22:05:00\",\n      \"freqType\": 2,\n      \"id\": \"2\",\n      \"lastError\": 0,\n      \"lastRun\": \"2018-01-07 14:05:00 GMT\",\n      \"name\": \"every_15_minutes\",\n      \"nextRun\": \"2018-01-07 14:20:00 GMT\",\n      \"repeatFrequency\": 15,\n      \"repeatInterval\": 1,\n      \"repeatTask\": \"true\",\n      \"sendEmail\": \"false\",\n      \"startDate\": \"2018-01-07 05:05:00\",\n      \"status\": 1,\n      \"taskType\": \"BACKUP\"\n    },\n    {\n      \"dailyDays\": 1,\n      \"daysOfTheWeek\": \"0000000\",\n      \"daysOfTheWeekDetails\": \"\",\n      \"emailAddresses\": \"\",\n      \"enableEndDate\": \"false\",\n      \"enabled\": \"true\",\n      \"filemakerScriptType\": {\n        \"autoAbort\": \"true\",\n        \"fmScriptAccount\": \"rest\",\n        \"fmScriptName\": \"some_script\",\n        \"fmScriptParam\": \"\",\n        \"fmScriptPassword\": \"$0$EBktAoJu9tAZJFqQT3PV9BTFS/kHQeyi6UwlgxqNCkSj\",\n        \"fromTarget\": \"file:the_UI\",\n        \"timeout\": 2\n      },\n      \"freqType\": 2,\n      \"id\": \"3\",\n      \"lastError\": 0,\n      \"lastRun\": \"2018-01-07 13:59:00 GMT\",\n      \"name\": \"run_some_script\",\n      \"nextRun\": \"2018-01-08 01:30:00 GMT\",\n      \"repeatFrequency\": 10,\n      \"repeatInterval\": 1,\n      \"repeatTask\": \"false\",\n      \"sendEmail\": \"false\",\n      \"startDate\": \"2018-01-07 01:30:00\",\n      \"status\": 1,\n      \"taskType\": \"FILEMAKER SCRIPT\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Schedule",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d1db2075-4689-4c3e-a427-7cd370b8d281",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.environment.unset(\"schedule_id\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/schedules/{{schedule_id}}",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"schedules",
+								"{{schedule_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PHP",
+			"item": [
+				{
+					"name": "PHP Settings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/php/config",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"php",
+								"config"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get PHP config",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{server}}/fmi/admin/api/v2/php/config",
+									"protocol": "https",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"fmi",
+										"admin",
+										"api",
+										"v2",
+										"php",
+										"config"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "158",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Mar 2018 19:33:53 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"9e-k8pNmbNOUMzmYgLHXvuxuUvN2IY\"",
+									"name": "ETag",
+									"description": "An identifier for a specific version of a resource, often a message digest"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains",
+									"name": "Strict-Transport-Security",
+									"description": "A HSTS Policy informing the HTTP client how long to cache the HTTPS only policy and whether this applies to subdomains."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff",
+									"name": "X-Content-Type-Options",
+									"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN",
+									"name": "X-Frame-Options",
+									"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "ARR/3.0",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block",
+									"name": "X-XSS-Protection",
+									"description": "Cross-site scripting (XSS) filter"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/fmi/xml",
+									"secure": false,
+									"value": "\"daFjKoK30bs9b2VGttRp/w==\"",
+									"key": "WPCSessionID"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "landmammal.soliant.cloud",
+									"path": "/",
+									"secure": false,
+									"value": "s%3ArOaVf62raB2ugNRReGbqTmeoQPKX0jCi.hde5wDl94PWmaNChqC3l8QWzcA10Xvy6XYKjo0diPU4",
+									"key": "connect.sid"
+								}
+							],
+							"body": "{\n  \"result\": 0,\n  \"characterEncoding\": \"UTF-8\",\n  \"dataPreValidation\": false,\n  \"enabled\": false,\n  \"errorMessageLanguage\": \"en\",\n  \"useFileMakerPhp\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Update PHP Settings",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"enabled\": true,\n    \"useFileMakerPhp\": true,\n    \"characterEncoding\": \"UTF-8\",\n    \"dataPreValidation\": false,\n    \"errorMessageLanguage\": \"en\"\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/php/config",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"php",
+								"config"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "XML",
+			"item": [
+				{
+					"name": "XML Settings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/xml/config",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"xml",
+								"config"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update XML Settings",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"enabled\": false\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/xml/config",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"xml",
+								"config"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ODBC/JDBC",
+			"item": [
+				{
+					"name": "ODBC/JDBC Settings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/xdbc/config",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"xdbc",
+								"config"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update ODBC/JDBC Settings",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"enabled\": false\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/xdbc/config",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"xdbc",
+								"config"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Filemaker Data API",
+			"item": [
+				{
+					"name": "FileMaker Data API Settings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/fmdapi/config",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"fmdapi",
+								"config"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update FileMaker Data API Settings",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"enabled\": true\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/fmdapi/config",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"fmdapi",
+								"config"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Web Publishing Engine",
+			"item": [
+				{
+					"name": "FileMaker WebDirect Settings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/webdirect/config",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"webdirect",
+								"config"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update FileMaker WebDirect Settings",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"enabled\": true\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/webdirect/config",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"webdirect",
+								"config"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "WPE Settings for All Machines",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/wpe/config",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"wpe",
+								"config"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "WPE Settings for a Single Machine",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/wpe/config/{{machine_id}}",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"wpe",
+								"config",
+								"{{machine_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update WPE Settings",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"enabled\": true\n}"
+						},
+						"url": {
+							"raw": "https://{{server}}/fmi/admin/api/v2/wpe/config/{{machine_id}}",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"admin",
+								"api",
+								"v2",
+								"wpe",
+								"config",
+								"{{machine_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "1084053f-ff44-4b0c-a22f-5db67e9df984",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "20a9e53a-4abe-4a7e-9e28-5c87b15ea61a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
