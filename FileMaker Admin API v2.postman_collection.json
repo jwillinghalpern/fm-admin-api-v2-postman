@@ -48,12 +48,7 @@
 							]
 						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -85,7 +80,7 @@
 								"id": "c4234f3c-009b-4611-9871-ee2f8b9d7425",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"pm.environment.unset(\"access_token\");",
+									"pm.environment.set(\"access_token\", \"\");",
 									"",
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -101,16 +96,7 @@
 					],
 					"request": {
 						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{access_token}}"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": ""
@@ -898,7 +884,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"status\": \"CLOSED\",\n\t\"key\": \"abcdefg\",\n\t\"messageText\": \"Hellow World\",\n\t\"force\": false\n}"
+							"raw": "{\n\t\"status\": \"CLOSED\",\n\t\"messageText\": \"Closing now\",\n\t\"force\": false\n}"
 						},
 						"url": {
 							"raw": "https://{{server}}/fmi/admin/api/v2/databases/{{db_id}}",
