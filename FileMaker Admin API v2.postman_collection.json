@@ -120,6 +120,31 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9bf10ff9-4e93-4405-badb-055b07743a53",
+						"type": "text/javascript",
+						"exec": [
+							""
+			]
+					}
+		},
+		{
+					"listen": "test",
+					"script": {
+						"id": "20b4b360-6682-450f-805c-1b2f4ae5204f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -831,6 +856,18 @@
 				},
 				{
 					"name": "Perform Database Operations for All Databases",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "c45a2989-8120-4652-bceb-ad82fe90885f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -847,7 +884,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"status\": \"RUNNING\",\n\t\"force\": false\n}"
+							"raw": "{\n\t\"status\": \"CLOSED\",\n\t\"force\": false\n}"
 						},
 						"url": {
 							"raw": "https://{{server}}/fmi/admin/api/v2/databases",
@@ -862,7 +899,8 @@
 								"v2",
 								"databases"
 							]
-						}
+					},
+						"description": "valid statuses are OPENED, CLOSED, PAUSED\nCLOSED supports the optional \"force\" property (true/false)"
 					},
 					"response": []
 				},
@@ -900,7 +938,8 @@
 								"databases",
 								"{{db_id}}"
 							]
-						}
+					},
+						"description": "valid statuses are OPENED, CLOSED, PAUSED\nCLOSED and PAUSED support the optional \"force\" property (true/false)\nCLOSED and PAUSED supports the \"messageText\" property to send clients a message"
 					},
 					"response": []
 				}
@@ -924,10 +963,9 @@
 									"var jsonData = pm.response.json();",
 									"try {",
 									"    pm.environment.set(\"client_id\", jsonData.response.clients[0].id);",
-									"} catch (err){",
+									"} catch (err) {",
 									"    pm.environment.unset(\"client_id\");",
-									"}",
-									""
+									"}"
 								],
 								"type": "text/javascript"
 							}
@@ -1149,8 +1187,7 @@
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
-									"",
-									"pm.environment.unset(\"client_id\");"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -1170,10 +1207,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"messageText\": \"Disconnecting, save your changes.\",\n\t\"graceTime\": 15\n}"
+							"raw": ""
 						},
 						"url": {
-							"raw": "https://{{server}}/fmi/admin/api/v2/clients/{{client_id}}",
+							"raw": "https://{{server}}/fmi/admin/api/v2/clients/{{client_id}}?messageText=Disconnecting in 10 seconds. Quick, save!&graceTime=10",
 							"protocol": "https",
 							"host": [
 								"{{server}}"
@@ -1185,6 +1222,18 @@
 								"v2",
 								"clients",
 								"{{client_id}}"
+							],
+							"query": [
+								{
+									"key": "messageText",
+									"value": "Disconnecting in 10 seconds. Quick, save!",
+									"description": "message to client"
+								},
+								{
+									"key": "graceTime",
+									"value": "10",
+									"description": "in seconds"
+								}
 							]
 						}
 					},
@@ -1981,7 +2030,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"UpdatedSchedule\",\n    \"systemScriptType\": {\n        \"osScriptParam\": \"bar\",\n        \"runOSScriptsAsUser\": {}\n    },\n    \"weeklyType\": {\n        \"startTimeStamp\": \"2020-06-23T05:32:00\",\n        \"daysOfTheWeek\": [\n            \"TUE\",\n            \"SAT\"\n        ]\n    }\n}"
+							"raw": "{\n    \"name\": \"UpdatedSchedule\",\n    \"systemScriptType\": {\n    \t\"osScript\": \"hello_world.cmd\",\n        \"osScriptParam\": \"bar\",\n        \"runOSScriptsAsUser\": {}\n    },\n    \"weeklyType\": {\n        \"startTimeStamp\": \"2020-06-23T05:32:00\",\n        \"daysOfTheWeek\": [\n            \"TUE\",\n            \"SAT\"\n        ]\n    }\n}"
 						},
 						"url": {
 							"raw": "https://{{server}}/fmi/admin/api/v2/schedules/{{schedule_id}}",
@@ -1997,7 +2046,8 @@
 								"schedules",
 								"{{schedule_id}}"
 							]
-						}
+					},
+						"description": "https://{{server}}/fmi/admin/apidoc/#operation/patchSchedule"
 					},
 					"response": [
 						{
@@ -2929,6 +2979,16 @@
 			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
